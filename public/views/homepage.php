@@ -6,4 +6,4 @@
  * Time: 11:26
  */
 
-echo $controller->siteName;
+echo 'welcome to the event organizer';
