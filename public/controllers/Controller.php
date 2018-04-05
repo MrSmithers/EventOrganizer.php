@@ -8,13 +8,12 @@
 
 class Controller
 {
-
     public function __construct()
     {
-        $this->Controller = $this;
+
     }
 
-    public function View()
+    public function View($uri = false, $query = false)
     {
 
     }

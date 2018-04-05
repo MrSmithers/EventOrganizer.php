@@ -4,3 +4,7 @@
 *.iml
 
 \.DS_Store
+
+composer\.phar
+
+vendor/

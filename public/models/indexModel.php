@@ -6,7 +6,9 @@
  * Time: 15:32
  */
 
-class indexModel
+require 'Model.php';
+
+class indexModel extends Model
 {
 
 }
