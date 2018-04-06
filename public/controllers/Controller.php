@@ -8,12 +8,14 @@
 
 class Controller
 {
+    public $_Errors;
+
     public function __construct()
     {
-
+        $this->_Errors = null;
     }
 
-    public function View($uri = false, $query = false)
+    public function View($uri = false)
     {
 
     }

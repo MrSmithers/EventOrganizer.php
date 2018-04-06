@@ -30,7 +30,7 @@
     <script src="/js/layout.js"></script>
 
     <!-- Specific stylesheet file.-->
-    <link rel="stylesheet" href="/css/<?php echo $filePath ?>.css">
+    <link rel="stylesheet" href="/css/<?= $filePath ?>.css">
     <!-- Specific javascript file.-->
     <!--<script src="/js/--><?php //echo $filePath ?><!--.js"></script>-->
 </head>

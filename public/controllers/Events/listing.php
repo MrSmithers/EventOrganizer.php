@@ -13,6 +13,7 @@ class listing extends Controller
 {
     public $filePath;
     public $events;
+    public $export;
 
     public function __construct()
     {
@@ -24,13 +25,33 @@ class listing extends Controller
         ];
     }
 
-    public function View($uri = false, $query = false)
+    function _urlFriendly($string) {
+        $string = strtolower($string);
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^a-z0-9\-]/', '', $string); // Removes special chars.
+
+        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+    }
+
+    public function Export() {
+        $model = new eventListingModel();
+
+        $events = $model->find('events');
+        $this->export = json_encode($events);
+    }
+
+    public function View($uri = false)
     {
         parent::View();
 
         $model = new eventListingModel();
 
         $events = $model->find('events');
+
+        foreach ($events as &$event) {
+            $event['urlTitle'] = $this->_urlFriendly($event['title']);
+        }
+
         $this->events = $events;
     }
 }

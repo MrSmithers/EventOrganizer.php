@@ -24,7 +24,7 @@ class profile extends Controller
         ];
     }
 
-    public function View($uri = false, $query = false)
+    public function View($uri = false)
     {
         parent::View();
 

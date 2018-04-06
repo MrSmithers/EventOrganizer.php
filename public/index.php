@@ -17,10 +17,9 @@ switch ($requestUri[0]) {
         require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
         break;
     case '/login':
-        $redirect = (empty($requestUri[1])) ? '' : $requestUri[1];
         require 'controllers/Users/login.php';
         $controller = new login;
-        _checkPost($controller);
+        _checkPost($controller, $requestUri);
         require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
         break;
     case '/logout':
@@ -32,7 +31,7 @@ switch ($requestUri[0]) {
     case '/sign-up':
         require 'controllers/Users/register.php';
         $controller = new register;
-        _checkPost($controller);
+        _checkPost($controller, $requestUri);
         require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
         break;
         break;
@@ -45,8 +44,25 @@ switch ($requestUri[0]) {
     case '/events/create':
         require 'controllers/Events/create.php';
         $controller = new create;
-        _checkPost($controller);
+        _checkPost($controller, $requestUri);
         require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
+        break;
+    case '/events/edit':
+        require 'controllers/Events/edit.php';
+        $controller = new edit;
+        _checkPost($controller, $requestUri);
+        require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
+        break;
+    case '/events/delete':
+        require 'controllers/Events/delete.php';
+        $controller = new delete;
+        $controller->View();
+        require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
+        break;
+    case '/events/delete/confirm':
+        require 'controllers/Events/delete.php';
+        $controller = new delete;
+        $controller->Confirm();
         break;
     case (preg_match('/\/events\/view\/.*/', $requestUri[0]) ? true : false):
         require 'controllers/Events/landing.php';
@@ -60,6 +76,18 @@ switch ($requestUri[0]) {
         $controller->View($requestUri[0]);
         require $_SERVER['DOCUMENT_ROOT'] . '/views/layout.php';
         break;
+    case '/api/events':
+        require 'controllers/Events/listing.php';
+        $controller = new listing;
+        $controller->Export();
+        require $_SERVER['DOCUMENT_ROOT'] . '/views/export.php';
+        break;
+    case (preg_match('/\/api\/events\/.*/', $requestUri[0]) ? true : false):
+        require 'controllers/Events/landing.php';
+        $controller = new landing;
+        $controller->Export($requestUri[0]);
+        require $_SERVER['DOCUMENT_ROOT'] . '/views/export.php';
+        break;
     default:
         _404();
         break;
@@ -71,9 +99,9 @@ function _404() {
     exit;
 }
 
-function _checkPost($controller) {
+function _checkPost($controller, $requestUri) {
     if ($_SERVER["REQUEST_METHOD"] == 'GET') {
-        $controller->View();
+        $controller->View($requestUri[0]);
     } elseif ($_SERVER["REQUEST_METHOD"] == 'POST' && !empty($_POST)) {
         $controller->Post();
     } else {

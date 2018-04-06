@@ -23,7 +23,7 @@ class logout extends Controller
         ];
     }
 
-    public function View($uri = false, $query = false)
+    public function View($uri = false)
     {
         // Set cookie expiry to a past time, forcing expiry.
         setcookie('session', '', time() - 1, '/');

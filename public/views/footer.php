@@ -7,5 +7,5 @@
  */
 ?>
 <footer>
-    <?php echo 'Event Organizer'; ?>
+    <?= 'Event Organizer'; ?>
 </footer>

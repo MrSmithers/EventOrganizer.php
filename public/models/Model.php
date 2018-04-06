@@ -10,7 +10,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php';
 
 class Model {
 
-    private $_database;
+    protected $_database;
 
     public function __construct()
     {
@@ -27,6 +27,8 @@ class Model {
     }
 
     public function findOneById($collection, $id) {
+        // _id must be 24 characters long.
+        if (strlen($id) != 24) _404();
         // Mongo _id must be referenced using a Mongo ObjectId.
         $objectId = new MongoDB\BSON\ObjectID($id);
         return $this->_database->{$collection}->findOne(['_id' => $objectId]);
@@ -43,6 +45,18 @@ class Model {
     }
 
     public function delete($collection, $id) {
-        $this->_database->{$collection}->deleteOne(['_id' => $id]);
+        // _id must be 24 characters long.
+        if (strlen($id) != 24) _404();
+        // Mongo _id must be referenced using a Mongo ObjectId.
+        $objectId = new MongoDB\BSON\ObjectID($id);
+        $this->_database->{$collection}->deleteOne(['_id' => $objectId]);
+    }
+
+    public function update($collection, $id, $data) {
+        // _id must be 24 characters long.
+        if (strlen($id) != 24) _404();
+        // Mongo _id must be referenced using a Mongo ObjectId.
+        $objectId = new MongoDB\BSON\ObjectID($id);
+        $this->_database->{$collection}->findOneAndUpdate(['_id' => $objectId], ['$set' => $data]);
     }
 }
